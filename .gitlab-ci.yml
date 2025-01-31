@@ -1,4 +1,4 @@
-image: copyrat90/godot-limboai-ci:1.3.0
+image: copyrat90/godot-limboai-ci:mono-1.3.0
 
 # NOTE: If your `project.godot` is at the repository root, set `PROJECT_PATH` below to ".".
 
