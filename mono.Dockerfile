@@ -35,13 +35,13 @@ RUN wget https://github.com/limbonaut/limboai/releases/download/v${LIMBOAI_VERSI
     && wget https://github.com/limbonaut/limboai/releases/download/v${LIMBOAI_VERSION}/limboai+v${LIMBOAI_VERSION}.godot-${GODOT_VERSION}.dotnet.export-templates.zip \
     && mkdir -p ~/.cache \
     && mkdir -p ~/.config/godot \
-    && mkdir -p ~/.local/share/godot/export_templates/${GODOT_VERSION}.${RELEASE_NAME}.mono \
+    && mkdir -p ~/.local/share/godot/export_templates/${GODOT_VERSION}.limboai+v${LIMBOAI_VERSION}.mono \
     && unzip limboai+v${LIMBOAI_VERSION}.godot-${GODOT_VERSION}.dotnet.editor.${GODOT_PLATFORM}.zip \
     && unzip godot-limboai.editor.linux.zip \
     && mv godot.linuxbsd.editor.x86_64.mono /usr/local/bin/godot \
     && mv GodotSharp /usr/local/bin/GodotSharp \
     && unzip limboai+v${LIMBOAI_VERSION}.godot-${GODOT_VERSION}.dotnet.export-templates.zip \
-    && mv templates/* ~/.local/share/godot/export_templates/${GODOT_VERSION}.${RELEASE_NAME}.mono \
+    && mv templates/* ~/.local/share/godot/export_templates/${GODOT_VERSION}.limboai+v${LIMBOAI_VERSION}.mono \
     && rm -f limboai+v${LIMBOAI_VERSION}.godot-${GODOT_VERSION}.dotnet.export-templates.zip limboai+v${LIMBOAI_VERSION}.godot-${GODOT_VERSION}.dotnet.editor.${GODOT_PLATFORM}.zip godot-limboai.editor.linux.zip README.md
 
 ADD getbutler.sh /opt/butler/getbutler.sh

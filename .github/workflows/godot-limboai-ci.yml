@@ -5,6 +5,7 @@ on: push
 
 env:
   GODOT_VERSION: 4.3
+  LIMBOAI_VERSION: 1.3.0
   EXPORT_NAME: test-project
   PROJECT_PATH: test-project
 
@@ -29,7 +30,7 @@ jobs:
       - name: Setup
         run: |
           mkdir -v -p ~/.local/share/godot/export_templates/
-          mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable.mono ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable.mono
+          mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.limboai+v${LIMBOAI_VERSION}.mono ~/.local/share/godot/export_templates/${GODOT_VERSION}.limboai+v${LIMBOAI_VERSION}.mono
           mkdir -v -p build/${{ matrix.preset.os }}
       - name: Windows Setup
         if: matrix.preset.name == 'windows'
