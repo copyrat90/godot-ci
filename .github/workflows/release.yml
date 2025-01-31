@@ -3,7 +3,7 @@ on:
   release:
     types: [released]
 env:
-  IMAGE_NAME: godot-ci
+  IMAGE_NAME: godot-limboai-ci
 jobs:
   version:
     name: Get Version

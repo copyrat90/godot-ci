@@ -1,4 +1,4 @@
-name: "godot-ci export"
+name: "godot-limboai-ci export"
 on: push
 
 # NOTE: If your `project.godot` is at the repository root, set `PROJECT_PATH` below to ".".
@@ -13,7 +13,7 @@ jobs:
     name: ${{ matrix.preset.job-name }}
     runs-on: ubuntu-20.04
     container:
-      image: copyrat90/godot-ci:4.3
+      image: copyrat90/godot-limboai-ci:4.3
     strategy:
       matrix:
         preset:

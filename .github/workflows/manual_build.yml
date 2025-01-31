@@ -2,8 +2,12 @@ name: Manual Build
 on:
  workflow_dispatch:
     inputs:
-      version:
-        description: 'Version of engine to build e.g. "3.4.4", "3.5"'     
+      godot_version:
+        description: 'Version of Godot engine to build e.g. "4.2", "4.3"'     
+        required: true
+        type: string
+      limboai_version:
+        description: 'Version of LimboAI to build e.g. "1.2.2", "1.3.0"'
         required: true
         type: string
       release_name:
@@ -12,7 +16,7 @@ on:
         default: "stable"
         required: true
 env:
-  IMAGE_NAME: godot-ci
+  IMAGE_NAME: godot-limboai-ci
 jobs:
   build:
     name: Build Image
@@ -39,14 +43,14 @@ jobs:
           file: Dockerfile
           push: true
           tags: |
-            ghcr.io/${{ env.IMAGE_OWNER }}/${{ env.IMAGE_NAME }}:${{ github.event.inputs.version }}${{ env.IMAGE_TAG }}
-            ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.event.inputs.version }}${{ env.IMAGE_TAG }}
+            ghcr.io/${{ env.IMAGE_OWNER }}/${{ env.IMAGE_NAME }}:${{ github.event.inputs.limboai_version }}${{ env.IMAGE_TAG }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.event.inputs.limboai_version }}${{ env.IMAGE_TAG }}
           build-args: |
-            GODOT_VERSION=${{ github.event.inputs.version }}
+            GODOT_VERSION=${{ github.event.inputs.godot_version }}
+            LIMBOAI_VERSION=${{ github.event.inputs.limboai_version }}
             RELEASE_NAME=${{ github.event.inputs.release_name }}
-            SUBDIR=${{  github.event.inputs.release_name != 'stable' && format('/{0}', github.event.inputs.release_name) || '' }}
-            GODOT_TEST_ARGS=${{ startsWith( github.event.inputs.version, '3.' ) && '' || '--headless --quit' }}
-            GODOT_PLATFORM=${{ startsWith( github.event.inputs.version, '3.' ) && 'linux_headless.64' || 'linux.x86_64' }}
+            GODOT_TEST_ARGS=${{ startsWith( github.event.inputs.godot_version, '3.' ) && '' || '--headless --quit' }}
+            GODOT_PLATFORM=${{ startsWith( github.event.inputs.godot_version, '3.' ) && 'linux_headless.64' || 'linux.x86_64' }}
   build-mono:
     name: Build Mono Image
     runs-on: ubuntu-20.04
@@ -72,12 +76,11 @@ jobs:
           file: mono.Dockerfile
           push: true
           tags: |
-            ghcr.io/${{ env.IMAGE_OWNER }}/${{ env.IMAGE_NAME }}:mono-${{ github.event.inputs.version }}${{ env.IMAGE_TAG }}
-            ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:mono-${{ github.event.inputs.version }}${{ env.IMAGE_TAG }}
+            ghcr.io/${{ env.IMAGE_OWNER }}/${{ env.IMAGE_NAME }}:mono-${{ github.event.inputs.limboai_version }}${{ env.IMAGE_TAG }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:mono-${{ github.event.inputs.limboai_version }}${{ env.IMAGE_TAG }}
           build-args: |
-            GODOT_VERSION=${{ github.event.inputs.version }}
+            GODOT_VERSION=${{ github.event.inputs.godot_version }}
+            LIMBOAI_VERSION=${{ github.event.inputs.limboai_version }}
             RELEASE_NAME=${{ github.event.inputs.release_name }}
-            SUBDIR=${{  github.event.inputs.release_name != 'stable' && format('/{0}', github.event.inputs.release_name) || '' }}
-            ZIP_GODOT_PLATFORM=${{ startsWith( github.event.inputs.version, '3.' ) && 'linux_headless_64' || 'linux_x86_64' }}
-            FILENAME_GODOT_PLATFORM=${{ startsWith( github.event.inputs.version, '3.' ) && 'linux_headless.64' || 'linux.x86_64' }}
+            FILENAME_GODOT_PLATFORM=${{ startsWith( github.event.inputs.godot_version, '3.' ) && 'linux_headless.64' || 'linux.x86_64' }}
             
