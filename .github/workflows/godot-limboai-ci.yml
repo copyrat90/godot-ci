@@ -14,7 +14,7 @@ jobs:
     name: ${{ matrix.preset.job-name }}
     runs-on: ubuntu-20.04
     container:
-      image: copyrat90/godot-limboai-ci:mono-4.3
+      image: copyrat90/godot-limboai-ci:4.3
     strategy:
       matrix:
         preset:
@@ -30,7 +30,7 @@ jobs:
       - name: Setup
         run: |
           mkdir -v -p ~/.local/share/godot/export_templates/
-          mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.limboai+v${LIMBOAI_VERSION}.mono ~/.local/share/godot/export_templates/${GODOT_VERSION}.limboai+v${LIMBOAI_VERSION}.mono
+          mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.limboai+v${LIMBOAI_VERSION} ~/.local/share/godot/export_templates/${GODOT_VERSION}.limboai+v${LIMBOAI_VERSION}
           mkdir -v -p build/${{ matrix.preset.os }}
       - name: Windows Setup
         if: matrix.preset.name == 'windows'
