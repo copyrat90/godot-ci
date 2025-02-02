@@ -1,4 +1,4 @@
-FROM mono:latest
+FROM mcr.microsoft.com/dotnet/sdk:9.0
 LABEL author="https://github.com/copyrat90/godot-ci/graphs/contributors"
 
 USER root
@@ -8,8 +8,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     git \
     git-lfs \
-    python \
-    python-openssl \
+    python3 \
+    python-is-python3 \
+    python3-openssl \
     unzip \
     wget \
     zip \
