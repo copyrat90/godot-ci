@@ -1,0 +1,48 @@
+name: "godot-mono-ci export"
+on: push
+
+# NOTE: If your `project.godot` is at the repository root, set `PROJECT_PATH` below to ".".
+
+env:
+  GODOT_VERSION: 4.3
+  EXPORT_NAME: test-project
+  PROJECT_PATH: test-project
+
+jobs:
+  export:
+    name: ${{ matrix.preset.job-name }}
+    runs-on: ubuntu-20.04
+    container:
+      image: copyrat90/godot-ci:mono-4.3
+    strategy:
+      matrix:
+        preset:
+          - { name: Windows Desktop, job-name: Windows x86-64 Export, os: windows, arch: x86_64, ext: exe  }
+          - { name: Linux/X11,       job-name: Linux x86-64 Export,   os: linux,   arch: x86_64, ext: bin  }
+          - { name: macOS,           job-name: Mac OS Export,         os: mac,     arch: arm64,  ext: zip  }
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+      - name: Setup
+        run: |
+          mkdir -v -p ~/.local/share/godot/export_templates/
+          mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable.mono ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable.mono
+          mkdir -v -p build/${{ matrix.preset.os }}
+      - name: Windows Setup
+        if: matrix.preset.name == 'windows'
+        run: |
+          mkdir -v -p ~/.config/
+          mv /root/.config/godot ~/.config/godot
+      - name: Desktop Build
+        if: matrix.preset.os != 'web'
+        run: |
+          EXPORT_DIR="$(readlink -f build)"
+          cd $PROJECT_PATH
+          godot --headless --verbose --export-release "${{ matrix.preset.name }}" "$EXPORT_DIR/${{ matrix.preset.os }}/$EXPORT_NAME.${{ matrix.preset.arch }}.${{ matrix.preset.ext }}"
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.preset.os }}
+          path: build/${{ matrix.preset.os }}
