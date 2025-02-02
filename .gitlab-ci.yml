@@ -1,4 +1,4 @@
-image: barichello/godot-ci:4.3
+image: copyrat90/godot-ci:4.3
 
 # NOTE: If your `project.godot` is at the repository root, set `PROJECT_PATH` below to ".".
 
