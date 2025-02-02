@@ -18,10 +18,10 @@ jobs:
     strategy:
       matrix:
         preset:
-          - { name: Windows Desktop, job-name: Windows x86-64 Export, os: windows, arch: x86_64, ext: exe  }
-          - { name: Linux/X11,       job-name: Linux x86-64 Export,   os: linux,   arch: x86_64, ext: bin  }
-          - { name: macOS,           job-name: Mac OS Export,         os: mac,     arch: arm64,  ext: zip  }
-          - { name: Web,             job-name: Web Export,            os: web,     arch: web,    ext: html }
+          - { name: Windows Desktop, job-name: Windows x86-64 Export, os: windows, arch: x86_64,    ext: exe  }
+          - { name: Linux/X11,       job-name: Linux x86-64 Export,   os: linux,   arch: x86_64,    ext: bin  }
+          - { name: macOS,           job-name: Mac OS Export,         os: mac,     arch: universal, ext: zip  }
+          - { name: Web,             job-name: Web Export,            os: web,     arch: web,       ext: html }
     steps:
       - name: Checkout
         uses: actions/checkout@v4
